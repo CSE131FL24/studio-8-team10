@@ -2,28 +2,29 @@ package studio8;
 
 public class SelectAllQuestion extends MultipleChoiceQuestion {
 
-	public SelectAllQuestion(String prompt, String answer, String[] choices) {
-		//Hint: 1 point per choice
-		//FIXME
-	}
+		public SelectAllQuestion(String prompt, String answer, String[] choices) {
+	        super(prompt, answer, answer.length(), choices); // Call the superclass constructor with appropriate arguments
+	    }
 	
 	public int checkAnswer(String givenAnswer) {
-		//FIXME Should return partial credit (if earned)!
-		return 0;
-	}
+		int missingCorrectAnswers = findMissingCorrectAnswers(givenAnswer);
+        int incorrectGivenAnswers = findIncorrectGivenAnswers(givenAnswer);
+
+        
+        int score = getPoints() - missingCorrectAnswers - incorrectGivenAnswers;
+        return Math.max(score, 0);
+    }
+
 
 	private int findMissingCorrectAnswers(String givenAnswer) {
 		String answer = this.getAnswer();
-		//how many letters are in the correct answer but not the given answer?
-		int incorrectValues = findMissingCharacters(givenAnswer, answer);
-		return incorrectValues;
+        return findMissingCharacters(givenAnswer, answer);
+
 	}
 	
 	private int findIncorrectGivenAnswers(String givenAnswer) {
 		String answer = this.getAnswer();
-		//how many letters are in the given answer but not the correct answer?
-		int incorrectValues = findMissingCharacters(answer, givenAnswer);
-		return incorrectValues;
+		   return findMissingCharacters(answer, givenAnswer);
 	}
 
 	/*
@@ -34,15 +35,15 @@ public class SelectAllQuestion extends MultipleChoiceQuestion {
 	 * This method is marked static as it does not depend upon any instance variables
 	 */
 	private static int findMissingCharacters(String baseString, String toCheck) {
-		int missingValues = 0;
-		for(int i = 0; i < toCheck.length(); i++) {
-			char characterToLocate = toCheck.charAt(i);
-			if(baseString.indexOf(characterToLocate) == -1) { //not in baseString
-				missingValues++;
-			}
-		}
-		return missingValues;
-	}	
+		 int missingValues = 0;
+	        for (int i = 0; i < toCheck.length(); i++) {
+	            char characterToLocate = toCheck.charAt(i);
+	            if (baseString.indexOf(characterToLocate) == -1) { // character is not in baseString
+	                missingValues++;
+	            }
+	        }
+	        return missingValues;
+	    }
 	
 	public static void main(String[] args) {
 		String[] choices = {"instance variables", "git", "methods", "eclipse"};

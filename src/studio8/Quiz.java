@@ -26,8 +26,29 @@ public class Quiz {
 	}
 	
 	public void takeQuiz() {
-		//FIXME
-	}
+		 int totalEarnedPoints = 0;
+
+	      
+	        for (Question q : questions) {
+	           
+	            q.displayPrompt();
+
+	           
+	            String userAnswer = getUserAnswer();
+
+	       
+	            int pointsEarned = q.checkAnswer(userAnswer);
+	            totalEarnedPoints += pointsEarned;
+
+	          
+	            System.out.println("You earned " + pointsEarned + " points for this question.\n");
+	        }
+
+	      
+	        int maxPoints = getTotalPoints();
+	        System.out.println("Quiz complete!");
+	        System.out.println("You earned a total of " + totalEarnedPoints + " out of " + maxPoints + " points.");
+	    }
 	
 	public static void main(String[] args) {
 		Question q = new Question("What number studio is this?", "8", 2);
